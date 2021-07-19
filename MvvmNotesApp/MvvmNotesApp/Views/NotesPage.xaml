@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com" 
+             xmlns:behaviors="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="MvvmNotesApp.Views.NotesPage">
+
+    <ContentPage.Resources>
+        <!-- Implicit styles -->
+        <Style TargetType="{x:Type ListView}">
+            <Setter Property="BackgroundColor"
+                    Value="{StaticResource AppBackgroundColor}" />
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="+"
+                     Command="{Binding AddNoteCommand}"
+                     CommandParameter="{Binding .}"/>
+    </ContentPage.ToolbarItems>
+    <ListView x:Name="listView" Margin="{StaticResource PageMargin}"
+              RefreshCommand="{Binding LoadNotesCommand}"
+              ItemsSource="{Binding Notes}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <TextCell Text="{Binding Title}"
+                          Detail="{Binding Date}" >
+                </TextCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.Behaviors>
+            <prism:EventToCommandBehavior Command="{Binding SelectCommand}"
+                                              EventName="ItemSelected"/>
+        </ListView.Behaviors>
+    </ListView>
+
+</ContentPage>
